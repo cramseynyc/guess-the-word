@@ -1,28 +1,14 @@
-//ul where guessed letters will appear
 const guessedLettersUl = document.querySelector(".guessed-letters")
-
-//guess button
 const guessBtn = document.querySelector(".guess")
-
-//text input where letters are guessed
 const inputEl = document.querySelector(".letter")
-
-//empty paragraph where word-in-progress is displayed
 const wordInProgress = document.querySelector(".word-in-progress")
-
-//paragraph where remaining guesses appear
 const remainingGuesses = document.querySelector(".remaining")
-
-//span inside paragraph for remaining guesses display
 const remainingGuessSpan = document.querySelector("span")
-
-//paragraph where messages appear
 const message = document.querySelector(".message")
-
-//hidden button prompting player to play again
 const playAgainBtn = document.querySelector(".play-again")
 
 const word = "magnolia"
+const guessedLetters = []
 
 const placeholder = function(word){
     const placeholderLetters = []
@@ -36,9 +22,41 @@ const placeholder = function(word){
 
 placeholder(word)
 
+
 guessBtn.addEventListener("click", function(e){
     e.preventDefault()
+    message.innerText = ""
+    // capture user input
     let inputValue = inputEl.value
-    console.log(inputValue)
+    // check that guess is a letter
+    const goodGuess = validateInput(inputValue)
+
+    if (goodGuess) {
+        makeGuess(inputValue)
+    }
     inputEl.value = ""
 })
+
+const validateInput = function(input){
+    const acceptedLetter = /[a-zA-Z]/
+    if (input.length === 0) {
+        message.innerText = "input cannot be empty"
+    } else if (input.length >1) {
+        message.innerText = "can only enter 1 letter"
+    } else if (!input.match(acceptedLetter)){
+        message.innerText = "must enter a letter"
+    } else {
+        return input
+    }
+}
+
+const makeGuess = function(input){
+   input = input.toUpperCase()
+
+   if (guessedLetters.includes(input)){
+       message.innerText = "letter already guessed"
+   } else {
+       guessedLetters.push(input)
+       console.log(guessedLetters)
+   }
+}
