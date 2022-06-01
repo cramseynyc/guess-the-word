@@ -1,4 +1,4 @@
-const guessedLettersUl = document.querySelector(".guessed-letters")
+let guessedLettersUl = document.querySelector(".guessed-letters")
 const guessBtn = document.querySelector(".guess")
 const inputEl = document.querySelector(".letter")
 const wordInProgress = document.querySelector(".word-in-progress")
@@ -7,7 +7,7 @@ const remainingGuessSpan = document.querySelector("span")
 const message = document.querySelector(".message")
 const playAgainBtn = document.querySelector(".play-again")
 
-const word = "magnolia"
+const word = "hi"
 const guessedLetters = []
 
 const placeholder = function(word){
@@ -57,6 +57,41 @@ const makeGuess = function(input){
        message.innerText = "letter already guessed"
    } else {
        guessedLetters.push(input)
-       console.log(guessedLetters)
-   }
+    //    console.log(guessedLetters)
+       guessedLettersLi()
+       updateWordInProgress(guessedLetters)
+   } 
 }
+
+const guessedLettersLi = function(){
+    guessedLettersUl.innerHTML = ""
+
+    for (let letter of guessedLetters){
+        let li = document.createElement("li")
+        li.innerText = letter
+        guessedLettersUl.append(li)
+    }
+}
+
+const updateWordInProgress = function(guessedLetters){
+    const wordUpper = word.toUpperCase()
+    const wordArray = wordUpper.split("")
+    const updatedLetters = []
+
+    for (let letter of wordUpper){
+        if (guessedLetters.includes(letter)){
+            updatedLetters.push(letter)
+        } else {
+            updatedLetters.push("●")
+        }
+    } wordInProgress.innerText = updatedLetters.join("")
+    revealWord()
+}
+
+const revealWord = function(){
+    if (wordInProgress.innerText === word.toUpperCase()){
+        message.classList.add("win")
+        message.innerHTML = `<p class="highlight">You guessed correct the word! Congrats!</p>`
+    }
+}
+
