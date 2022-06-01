@@ -2,10 +2,11 @@ let guessedLettersUl = document.querySelector(".guessed-letters")
 const guessBtn = document.querySelector(".guess")
 const inputEl = document.querySelector(".letter")
 const wordInProgress = document.querySelector(".word-in-progress")
-const remainingGuesses = document.querySelector(".remaining")
+const remainingGuessesEl = document.querySelector(".remaining")
 const remainingGuessSpan = document.querySelector("span")
 const message = document.querySelector(".message")
 const playAgainBtn = document.querySelector(".play-again")
+let remaininGuesses = 2
 
 const word = "hi"
 const guessedLetters = []
@@ -59,7 +60,9 @@ const makeGuess = function(input){
        guessedLetters.push(input)
     //    console.log(guessedLetters)
        guessedLettersLi()
+       guessesRemaining(input)
        updateWordInProgress(guessedLetters)
+       
    } 
 }
 
@@ -84,8 +87,23 @@ const updateWordInProgress = function(guessedLetters){
         } else {
             updatedLetters.push("●")
         }
-    } wordInProgress.innerText = updatedLetters.join("")
+    } 
+    wordInProgress.innerText = updatedLetters.join("")
     revealWord()
+}
+
+const guessesRemaining = function(guess){
+    const upperWord = word.toUpperCase()
+    if (!upperWord.includes(guess)){
+        message.innerText = `${guess} is not in the word.  Try again.`
+        remainingGuessesEl.innerText = `You have ${remaininGuesses -= 1} guesses remaining`
+     } else {
+        message.innerText = `Good guess! ${guess} is in the word!`
+     } 
+
+     if (remaininGuesses === 0){
+         message.innerText = `You have no more guesses. Game over.`
+     } 
 }
 
 const revealWord = function(){
