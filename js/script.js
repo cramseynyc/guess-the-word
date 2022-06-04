@@ -6,7 +6,7 @@ const remainingGuessesEl = document.querySelector(".remaining")
 const remainingGuessSpan = document.querySelector("span")
 const message = document.querySelector(".message")
 const playAgainBtn = document.querySelector(".play-again")
-let remaininGuesses = 2
+let remaininGuesses = 8
 
 const word = "hi"
 const guessedLetters = []
@@ -96,14 +96,22 @@ const guessesRemaining = function(guess){
     const upperWord = word.toUpperCase()
     if (!upperWord.includes(guess)){
         message.innerText = `${guess} is not in the word.  Try again.`
-        remainingGuessesEl.innerText = `You have ${remaininGuesses -= 1} guesses remaining`
+        remaininGuesses -= 1
      } else {
         message.innerText = `Good guess! ${guess} is in the word!`
      } 
 
      if (remaininGuesses === 0){
-         message.innerText = `You have no more guesses. Game over.`
-     } 
+        message.innerText = `Game over. The correct word is ${upperWord}`
+        remainingGuessSpan.innerText = `${remaininGuesses} guesses`
+
+     } else if (remaininGuesses === 1){
+         remainingGuessSpan.innerText = 
+            `${remaininGuesses} guess`
+     } else {
+        remainingGuessSpan.innerText = 
+        `${remaininGuesses} guesses`
+     }
 }
 
 const revealWord = function(){
