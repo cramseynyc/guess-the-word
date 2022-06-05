@@ -7,8 +7,8 @@ const remainingGuessSpan = document.querySelector("span")
 const message = document.querySelector(".message")
 const playAgainBtn = document.querySelector(".play-again")
 let word = "magnolia"
-let remaininGuesses = 8
-const guessedLetters = []
+let remaininGuesses = 2
+let guessedLetters = []
 
 const getWord = async function(){
     const res = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt")
@@ -17,8 +17,8 @@ const getWord = async function(){
     const randomIndex = Math.floor(Math.random() * wordArray.length)
     word = wordArray[randomIndex].trim()
     placeholder(word)
+    console.log(word)
 }
-
 
 getWord()
 
@@ -112,6 +112,7 @@ const guessesRemaining = function(guess){
      if (remaininGuesses === 0){
         message.innerText = `Game over. The correct word is ${upperWord}`
         remainingGuessSpan.innerText = `${remaininGuesses} guesses`
+        startOver()
 
      } else if (remaininGuesses === 1){
          remainingGuessSpan.innerText = 
@@ -126,6 +127,29 @@ const revealWord = function(){
     if (wordInProgress.innerText === word.toUpperCase()){
         message.classList.add("win")
         message.innerHTML = `<p class="highlight">You guessed correct the word! Congrats!</p>`
+        startOver()
     }
 }
 
+const startOver = function(){
+    guessBtn.classList.add("hide")
+    remainingGuessesEl.classList.add("hide")
+    guessedLettersUl.classList.add("hide")
+    playAgainBtn.classList.remove("hide")
+}
+
+playAgainBtn.addEventListener("click", function(){
+    message.classList.remove("win")
+    guessedLetters = []
+    remaininGuesses = 8
+    remainingGuessSpan.innerText = `${remaininGuesses} guesses`
+    guessedLettersUl.innerHTML = ""
+    message.innerText = ""
+    
+    getWord()
+
+    guessBtn.classList.remove("hide")
+    remainingGuessesEl.classList.remove("hide")
+    playAgainBtn.classList.add("hide")
+    guessedLettersUl.classList.remove("hide")
+})
