@@ -7,7 +7,7 @@ const remainingGuessSpan = document.querySelector("span")
 const message = document.querySelector(".message")
 const playAgainBtn = document.querySelector(".play-again")
 let word = "magnolia"
-let remaininGuesses = 2
+let remaininGuesses = 8
 let guessedLetters = []
 
 const getWord = async function(){
